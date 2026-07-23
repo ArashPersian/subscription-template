@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Footer } from "./footer";
 
 interface LayoutProps {
     children: ReactNode;
@@ -11,8 +10,6 @@ export function Layout({ children }: LayoutProps) {
             <main className="flex-1 animate-fadeIn">
                 {children}
             </main>
-            <Footer />
         </div>
     );
 }
-
