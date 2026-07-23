@@ -8,8 +8,8 @@
 :root {
   --primary-light: oklch(0.62 0.25 8);
   --primary-dark: oklch(0.72 0.24 6);
-  --vip-neon: #ff3d8d;
-  --vip-neon-soft: #ff77ae;
+  --vip-neon: #22d3ee;
+  --vip-neon-soft: #67e8f9;
   --chart-1: oklch(0.62 0.25 8);
   --chart-2: oklch(0.68 0.23 358);
   --chart-3: oklch(0.73 0.19 350);
@@ -109,7 +109,7 @@ body {
     inset 0 1px 0 rgb(255 255 255 / 5%);
 }
 
-/* Active/online indicators use the logo's neon rose instead of generic green. */
+/* A cyan neon accent separates live/usage signals from the rose brand color. */
 .text-green-500,
 .text-green-600 {
   color: var(--vip-neon) !important;
@@ -168,13 +168,23 @@ body {
   height: clamp(4.75rem, 8.5vw, 6.6rem);
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgb(255 61 141 / 48%);
+  border: 1px solid rgb(168 46 95 / 28%);
   border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 50% 88%, rgb(255 61 141 / 18%), transparent 54%),
+    linear-gradient(145deg, rgb(255 253 254 / 94%), rgb(248 222 232 / 88%));
+  box-shadow:
+    0 18px 48px -26px rgb(95 21 52 / 42%),
+    inset 0 1px 0 rgb(255 255 255 / 88%);
+  isolation: isolate;
+}
+
+.dark .brand-mark {
+  border-color: rgb(255 61 141 / 48%);
   background: linear-gradient(145deg, rgb(10 10 13 / 96%), rgb(37 8 22 / 94%));
   box-shadow:
     0 18px 48px -24px rgb(255 61 141 / 62%),
     inset 0 1px 0 rgb(255 255 255 / 10%);
-  isolation: isolate;
 }
 
 .brand-mark__glow {
@@ -182,8 +192,12 @@ body {
   inset: 20% 12%;
   z-index: -1;
   border-radius: 999px;
-  background: rgb(255 61 141 / 36%);
+  background: rgb(255 61 141 / 24%);
   filter: blur(24px);
+}
+
+.dark .brand-mark__glow {
+  background: rgb(255 61 141 / 36%);
 }
 
 .brand-mark__image {
@@ -191,9 +205,15 @@ body {
   height: 94%;
   object-fit: contain;
   filter:
+    drop-shadow(0 8px 12px rgb(76 16 40 / 22%))
+    drop-shadow(0 0 10px rgb(255 61 141 / 18%));
+  user-select: none;
+}
+
+.dark .brand-mark__image {
+  filter:
     drop-shadow(0 8px 12px rgb(0 0 0 / 35%))
     drop-shadow(0 0 10px rgb(255 61 141 / 25%));
-  user-select: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
