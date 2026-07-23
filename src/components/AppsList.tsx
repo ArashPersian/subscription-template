@@ -145,7 +145,7 @@ export const AppsList = React.memo(function AppsList() {
                                                 {platformLabel}
                                             </h3>
                                             {isCurrentOS && (
-                                                <span className="page-badge px-2 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 shrink-0">
+                                                <span className="vip-context-badge page-badge px-2 py-1 rounded-full shrink-0">
                                                     {t('apps.currentOS')}
                                                 </span>
                                             )}
@@ -221,7 +221,7 @@ const AppCard = React.memo(function AppCard({ app, desc, dlToShow, fallbackIcon:
                     <div className="flex items-center gap-1.5">
                         <h4 className="page-item-title truncate">{app.name}</h4>
                         {app.recommended && (
-                            <span className="page-badge px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 shrink-0">
+                            <span className="vip-context-badge page-badge px-1.5 py-0.5 rounded shrink-0">
                                 {t('apps.recommended')}
                             </span>
                         )}
