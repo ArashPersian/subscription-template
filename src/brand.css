@@ -232,3 +232,27 @@ body {
     }
   }
 }
+
+
+/* Distinct violet badges separate app guidance from brand and live-status accents. */
+.vip-context-badge {
+  color: #7c3aed;
+  border: 1px solid rgb(124 58 237 / 42%);
+  background:
+    linear-gradient(135deg, rgb(167 139 250 / 22%), rgb(124 58 237 / 10%));
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 34%) inset,
+    0 6px 18px -12px rgb(91 33 182 / 70%);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.dark .vip-context-badge {
+  color: #c4b5fd;
+  border-color: rgb(167 139 250 / 48%);
+  background:
+    linear-gradient(135deg, rgb(139 92 246 / 24%), rgb(76 29 149 / 18%));
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 6%) inset,
+    0 0 18px -9px rgb(167 139 250 / 78%);
+}
