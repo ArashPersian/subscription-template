@@ -10,6 +10,7 @@ import { TrafficChart } from '@/components/traffic-chart';
 import { ConnectionLinks } from '@/components/connection-links';
 import { ProminentSubscriptionLink } from '@/components/prominent-subscription-link';
 import { AppsList } from '@/components/AppsList';
+import { BrandMark } from '@/components/brand-mark';
 import { formatRelativeExpiry, formatDate } from '@/lib/dateFormatter';
 import { RefreshCcw, Bell } from 'lucide-react';
 import { useDir } from '@/hooks/useDir';
@@ -251,10 +252,8 @@ function App() {
             {/* Header */}
             <div className="flex sm:items-center sm:justify-between gap-4 sm:gap-0 mb-8 sm:mb-12 animate-fadeIn">
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 text-foreground">
-                  {t('dashboard.title')}
-                </h1>
-                <div className="flex min-w-0 items-center gap-2 text-end sm:gap-3">
+                <BrandMark />
+                <div className="mt-3 flex min-w-0 items-center gap-2 text-end sm:gap-3">
                   <div className="flex min-w-0 max-w-full items-center gap-2 sm:gap-3">
                     <p
                       dir="ltr"
