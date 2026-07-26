@@ -1,10 +1,34 @@
+import type { AppClient } from '@/types/user';
+
 export type IranRoutingClient = {
   id: 'happ' | 'streisand' | 'v2rayng';
   appName: string;
+  appAliases: string[];
   initials: string;
   importKind: 'app' | 'clipboard';
   importValue: string;
   guideStepsKey: string;
+};
+
+const normalizeAppName = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+export const findRoutingClientIcon = (
+  apps: AppClient[] | undefined,
+  client: IranRoutingClient,
+) => {
+  if (!apps?.length) return null;
+
+  const aliases = new Set(
+    [client.appName, ...client.appAliases].map(normalizeAppName),
+  );
+
+  return (
+    apps.find(
+      (app) =>
+        Boolean(app.icon_url) && aliases.has(normalizeAppName(app.name)),
+    )?.icon_url ?? null
+  );
 };
 
 const v2rayNgRules = [
@@ -95,6 +119,7 @@ export const getIranRoutingClients = (): IranRoutingClient[] => [
   {
     id: 'happ',
     appName: 'Happ',
+    appAliases: ['Happ Proxy'],
     initials: 'H',
     importKind: 'app',
     importValue: `happ://routing/add/${encodeAsciiBase64(JSON.stringify(happRoutingProfile))}`,
@@ -103,6 +128,7 @@ export const getIranRoutingClients = (): IranRoutingClient[] => [
   {
     id: 'streisand',
     appName: 'Streisand',
+    appAliases: [],
     initials: 'S',
     importKind: 'app',
     importValue: streisandRoutingLink,
@@ -111,6 +137,7 @@ export const getIranRoutingClients = (): IranRoutingClient[] => [
   {
     id: 'v2rayng',
     appName: 'v2rayNG',
+    appAliases: ['V2rayNG', 'V2RayNG'],
     initials: 'V',
     importKind: 'clipboard',
     importValue: JSON.stringify(v2rayNgRules),
