@@ -26,6 +26,9 @@ type ModalState =
 
 const isolateAppName = (appName: string) => `\u2068${appName}\u2069`;
 
+const formatAppTranslation = (translation: string, appName: string) =>
+  translation.split('__app__').join(isolateAppName(appName));
+
 const RoutingClientIcon = ({
   appName,
   iconUrl,
@@ -98,8 +101,15 @@ export const IranRoutingSection = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {clients.map((client) => {
           const copied = isCopied(`routing-${client.id}`);
-          const isolatedAppName = isolateAppName(client.appName);
           const iconUrl = findRoutingClientIcon(apps, client);
+          const cardTitle = formatAppTranslation(
+            t('routing.cardTitle'),
+            client.appName,
+          );
+          const importLabel = formatAppTranslation(
+            t('routing.import'),
+            client.appName,
+          );
 
           return (
             <article
@@ -115,7 +125,7 @@ export const IranRoutingSection = () => {
                 />
                 <div>
                   <h3 className="page-item-title text-base">
-                    {t('routing.cardTitle', { app: isolatedAppName })}
+                    {cardTitle}
                   </h3>
                   <span className="page-badge mt-1 inline-flex rounded-full bg-[var(--vip-neon)]/10 px-2 py-1 text-[var(--vip-neon)]">
                     {t('routing.badge')}
@@ -132,10 +142,10 @@ export const IranRoutingSection = () => {
                   <a
                     href={client.importValue}
                     data-testid={`routing-import-${client.id}`}
-                    aria-label={t('routing.import', { app: isolatedAppName })}
+                    aria-label={importLabel}
                   >
                     <ExternalLink className="size-4" />
-                    {t('routing.import', { app: isolatedAppName })}
+                    {importLabel}
                   </a>
                 </Button>
               ) : (
@@ -152,7 +162,7 @@ export const IranRoutingSection = () => {
                   )}
                   {copied
                     ? t('routing.copied')
-                    : t('routing.import', { app: isolatedAppName })}
+                    : importLabel}
                 </Button>
               )}
 
@@ -188,12 +198,14 @@ export const IranRoutingSection = () => {
               <DialogHeader>
                 <DialogTitle>
                   {modal.kind === 'qr'
-                    ? t('routing.qrTitle', {
-                        app: isolateAppName(modal.client.appName),
-                      })
-                    : t('routing.guideTitle', {
-                        app: isolateAppName(modal.client.appName),
-                      })}
+                    ? formatAppTranslation(
+                        t('routing.qrTitle'),
+                        modal.client.appName,
+                      )
+                    : formatAppTranslation(
+                        t('routing.guideTitle'),
+                        modal.client.appName,
+                      )}
                 </DialogTitle>
                 <DialogDescription>
                   {t(`${modal.client.guideStepsKey}.intro`)}
