@@ -128,5 +128,49 @@
       "androidtv": "Android TV",
       "other": "其他"
     }
+  },
+  "routing": {
+    "title": "伊朗直连路由",
+    "description": "伊朗网站和服务将直接访问，其他流量继续通过隧道。",
+    "cardTitle": "{{app}} 路由",
+    "cardDescription": "无需断开连接即可直连伊朗流量。",
+    "badge": "IR-Direct",
+    "import": "添加到 {{app}}",
+    "copied": "规则已复制",
+    "qr": "显示二维码",
+    "guide": "指南",
+    "qrTitle": "{{app}} 路由二维码",
+    "guideTitle": "{{app}} 指南",
+    "clients": {
+      "happ": {
+        "intro": "Happ 会自动添加路由配置。",
+        "steps": [
+          "点击添加到 Happ 或扫描二维码。",
+          "在应用中确认添加 IR-Direct 配置。"
+        ]
+      },
+      "streisand": {
+        "intro": "导入后请在路由设置中启用该配置。",
+        "steps": [
+          "打开 Settings。",
+          "进入 Routing。",
+          "选择 VIPTrue IR-Direct。",
+          "打开 Enable。"
+        ]
+      },
+      "v2rayng": {
+        "intro": "先点击添加按钮，将规则复制到剪贴板。",
+        "steps": [
+          "打开 Routing Settings。",
+          "打开右上角三点菜单。",
+          "选择 Import ruleset from clipboard。"
+        ]
+      }
+    }
+  },
+  "support": {
+    "title": "服务支持",
+    "description": "如需帮助、故障排查或服务咨询，请联系您的专属支持人员。",
+    "action": "联系支持"
   }
 }

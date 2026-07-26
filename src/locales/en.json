@@ -128,5 +128,49 @@
       "androidtv": "Android TV",
       "other": "Other"
     }
+  },
+  "routing": {
+    "title": "Direct Iran routing",
+    "description": "Iranian sites and services open directly while all other traffic continues through your tunnel.",
+    "cardTitle": "{{app}} routing",
+    "cardDescription": "Route Iranian traffic directly without disconnecting.",
+    "badge": "IR-Direct",
+    "import": "Add to {{app}}",
+    "copied": "Rules copied",
+    "qr": "Show QR",
+    "guide": "Guide",
+    "qrTitle": "{{app}} routing QR",
+    "guideTitle": "{{app}} guide",
+    "clients": {
+      "happ": {
+        "intro": "Happ adds the routing profile automatically.",
+        "steps": [
+          "Tap Add to Happ or scan the QR code.",
+          "Confirm adding the IR-Direct profile in the app."
+        ]
+      },
+      "streisand": {
+        "intro": "Enable the imported profile in routing settings.",
+        "steps": [
+          "Open Settings.",
+          "Open Routing.",
+          "Select VIPTrue IR-Direct.",
+          "Turn on Enable."
+        ]
+      },
+      "v2rayng": {
+        "intro": "Tap Add first to copy the rules to your clipboard.",
+        "steps": [
+          "Open Routing Settings.",
+          "Open the three-dot menu.",
+          "Choose Import ruleset from clipboard."
+        ]
+      }
+    }
+  },
+  "support": {
+    "title": "Service support",
+    "description": "Contact your dedicated service support for help, troubleshooting, or account questions.",
+    "action": "Contact support"
   }
 }
