@@ -11,6 +11,8 @@ import { ConnectionLinks } from '@/components/connection-links';
 import { ProminentSubscriptionLink } from '@/components/prominent-subscription-link';
 import { AppsList } from '@/components/AppsList';
 import { BrandMark } from '@/components/brand-mark';
+import { IranRoutingSection } from '@/components/iran-routing-section';
+import { SupportSection } from '@/components/support-section';
 import { formatRelativeExpiry, formatDate } from '@/lib/dateFormatter';
 import { RefreshCcw, Bell } from 'lucide-react';
 import { useDir } from '@/hooks/useDir';
@@ -559,6 +561,10 @@ function App() {
           <div className="mt-6 sm:mt-8">
             <AppsList />
           </div>
+
+          <IranRoutingSection />
+
+          <SupportSection />
         </div>
       </div>
     </Layout>
