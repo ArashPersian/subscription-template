@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Check, CircleHelp, Copy, ExternalLink, QrCode, Route } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
@@ -12,28 +12,68 @@ import {
 } from '@/components/ui/dialog';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useDir } from '@/hooks/useDir';
-import { getIranRoutingClients, type IranRoutingClient } from '@/lib/iranRouting';
-import { openAppScheme } from '@/lib/openAppScheme';
+import { useApps } from '@/hooks/useUserData';
+import {
+  findRoutingClientIcon,
+  getIranRoutingClients,
+  type IranRoutingClient,
+} from '@/lib/iranRouting';
 
 type ModalState =
   | { kind: 'guide'; client: IranRoutingClient }
   | { kind: 'qr'; client: IranRoutingClient }
   | null;
 
+const isolateAppName = (appName: string) => `\u2068${appName}\u2069`;
+
+const RoutingClientIcon = ({
+  appName,
+  iconUrl,
+  initials,
+}: {
+  appName: string;
+  iconUrl: string | null;
+  initials: string;
+}) => {
+  const [iconLoadFailed, setIconLoadFailed] = useState(false);
+
+  useEffect(() => {
+    setIconLoadFailed(false);
+  }, [iconUrl]);
+
+  if (iconUrl && !iconLoadFailed) {
+    return (
+      <img
+        src={iconUrl}
+        alt={`${appName} logo`}
+        className="size-11 shrink-0 rounded-xl border border-primary/25 bg-background object-cover shadow-sm"
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onError={() => setIconLoadFailed(true)}
+      />
+    );
+  }
+
+  return (
+    <div
+      aria-label={`${appName} logo fallback`}
+      className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/25 bg-gradient-to-br from-primary/20 to-[var(--vip-neon)]/15 text-lg font-black text-primary"
+    >
+      {initials}
+    </div>
+  );
+};
+
 export const IranRoutingSection = () => {
   const { t } = useTranslation();
   const dir = useDir();
   const clients = useMemo(() => getIranRoutingClients(), []);
+  const { apps } = useApps();
   const { copyToClipboard, isCopied } = useCopyToClipboard();
   const [modal, setModal] = useState<ModalState>(null);
 
-  const handleImport = async (client: IranRoutingClient) => {
-    if (client.importKind === 'clipboard') {
-      await copyToClipboard(client.importValue, `routing-${client.id}`);
-      return;
-    }
-
-    openAppScheme(client.importValue);
+  const handleCopy = async (client: IranRoutingClient) => {
+    await copyToClipboard(client.importValue, `routing-${client.id}`);
   };
 
   return (
@@ -58,19 +98,24 @@ export const IranRoutingSection = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {clients.map((client) => {
           const copied = isCopied(`routing-${client.id}`);
+          const isolatedAppName = isolateAppName(client.appName);
+          const iconUrl = findRoutingClientIcon(apps, client);
 
           return (
             <article
               key={client.id}
+              data-testid={`routing-card-${client.id}`}
               className="flex flex-col gap-4 rounded-2xl border border-border/60 bg-card/65 p-5 transition duration-300 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5"
             >
               <div className="flex items-center gap-3">
-                <div className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/25 bg-gradient-to-br from-primary/20 to-[var(--vip-neon)]/15 text-lg font-black text-primary">
-                  {client.initials}
-                </div>
+                <RoutingClientIcon
+                  appName={client.appName}
+                  iconUrl={iconUrl}
+                  initials={client.initials}
+                />
                 <div>
                   <h3 className="page-item-title text-base">
-                    {t('routing.cardTitle', { app: client.appName })}
+                    {t('routing.cardTitle', { app: isolatedAppName })}
                   </h3>
                   <span className="page-badge mt-1 inline-flex rounded-full bg-[var(--vip-neon)]/10 px-2 py-1 text-[var(--vip-neon)]">
                     {t('routing.badge')}
@@ -82,20 +127,34 @@ export const IranRoutingSection = () => {
                 {t('routing.cardDescription')}
               </p>
 
-              <Button
-                type="button"
-                className="mt-auto w-full gap-2"
-                onClick={() => handleImport(client)}
-              >
-                {client.importKind === 'clipboard' ? (
-                  copied ? <Check className="size-4" /> : <Copy className="size-4" />
-                ) : (
-                  <ExternalLink className="size-4" />
-                )}
-                {copied
-                  ? t('routing.copied')
-                  : t('routing.import', { app: client.appName })}
-              </Button>
+              {client.importKind === 'app' ? (
+                <Button asChild className="mt-auto w-full gap-2">
+                  <a
+                    href={client.importValue}
+                    data-testid={`routing-import-${client.id}`}
+                    aria-label={t('routing.import', { app: isolatedAppName })}
+                  >
+                    <ExternalLink className="size-4" />
+                    {t('routing.import', { app: isolatedAppName })}
+                  </a>
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  data-testid={`routing-import-${client.id}`}
+                  className="mt-auto w-full gap-2"
+                  onClick={() => handleCopy(client)}
+                >
+                  {copied ? (
+                    <Check className="size-4" />
+                  ) : (
+                    <Copy className="size-4" />
+                  )}
+                  {copied
+                    ? t('routing.copied')
+                    : t('routing.import', { app: isolatedAppName })}
+                </Button>
+              )}
 
               <div className="grid grid-cols-2 gap-2">
                 <Button
@@ -129,8 +188,12 @@ export const IranRoutingSection = () => {
               <DialogHeader>
                 <DialogTitle>
                   {modal.kind === 'qr'
-                    ? t('routing.qrTitle', { app: modal.client.appName })
-                    : t('routing.guideTitle', { app: modal.client.appName })}
+                    ? t('routing.qrTitle', {
+                        app: isolateAppName(modal.client.appName),
+                      })
+                    : t('routing.guideTitle', {
+                        app: isolateAppName(modal.client.appName),
+                      })}
                 </DialogTitle>
                 <DialogDescription>
                   {t(`${modal.client.guideStepsKey}.intro`)}

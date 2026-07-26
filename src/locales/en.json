@@ -132,15 +132,15 @@
   "routing": {
     "title": "Direct Iran routing",
     "description": "Iranian sites and services open directly while all other traffic continues through your tunnel.",
-    "cardTitle": "{{app}} routing",
+    "cardTitle": "__app__ routing",
     "cardDescription": "Route Iranian traffic directly without disconnecting.",
     "badge": "IR-Direct",
-    "import": "Add to {{app}}",
+    "import": "Add to __app__",
     "copied": "Rules copied",
     "qr": "Show QR",
     "guide": "Guide",
-    "qrTitle": "{{app}} routing QR",
-    "guideTitle": "{{app}} guide",
+    "qrTitle": "__app__ routing QR",
+    "guideTitle": "__app__ guide",
     "clients": {
       "happ": {
         "intro": "Happ adds the routing profile automatically.",

@@ -29,6 +29,10 @@ i18n
 
     interpolation: {
       escapeValue: false,
+      // PasarGuard renders the built HTML through Jinja before serving it.
+      // Avoid Jinja's {{ variable }} syntax so client-side app names survive.
+      prefix: '__',
+      suffix: '__',
     },
 
     detection: {
@@ -40,4 +44,3 @@ i18n
   });
 
 export default i18n;
-
