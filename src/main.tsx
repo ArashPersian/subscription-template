@@ -6,7 +6,6 @@ import './i18n/config'
 import App from './App.tsx'
 import { ThemeProvider } from './components/theme-provider'
 import { Toaster } from './components/ui/sonner'
-import { initViptrueAppBridge } from './lib/viptrueAppBridge'
 
 const documentRoot = document.documentElement
 const lightPrimaryColor = import.meta.env.VITE_PRIMARY_COLOR_LIGHT?.trim()
@@ -34,8 +33,6 @@ const normalizedBorderRadius = normalizeCssLength(borderRadius)
 if (normalizedBorderRadius) {
   documentRoot.style.setProperty('--radius', normalizedBorderRadius)
 }
-
-initViptrueAppBridge()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
